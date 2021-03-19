@@ -11,4 +11,5 @@ require (
 	github.com/smartystreets/assertions v1.1.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/urfave/negroni v1.0.0
+	gopkg.in/square/go-jose.v2 v2.5.1
 )
