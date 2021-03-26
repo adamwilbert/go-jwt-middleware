@@ -24,6 +24,7 @@ type TokenExtractor func(r *http.Request) (string, error)
 // error message describing why validation failed.
 // Inside of ValidateToken is where things like key and alg checking can
 // happen. In the default implementation we can add safe defaults for those.
+// TODO: should take context?
 type ValidateToken func(string) (interface{}, error)
 
 // Options is a struct for specifying configuration options for the middleware.
@@ -203,7 +204,7 @@ func (m *JWTMiddleware) CheckJWT(w http.ResponseWriter, r *http.Request) error {
 
 	if err != nil {
 		m.logf("Token is invalid")
-		m.Options.ErrorHandler(w, r, "The token isn't valid")
+		m.Options.ErrorHandler(w, r, fmt.Sprintf("The token isn't valid: %s", err.Error()))
 		return err
 	}
 
