@@ -203,7 +203,7 @@ func (m *JWTMiddleware) CheckJWT(w http.ResponseWriter, r *http.Request) error {
 
 	if err != nil {
 		m.logf("Token is invalid")
-		m.Options.ErrorHandler(w, r, fmt.Sprintf("The token isn't valid: %s", err.Error()))
+		m.Options.ErrorHandler(w, r, fmt.Sprintf("The token isn't valid: %v", err))
 		return err
 	}
 
