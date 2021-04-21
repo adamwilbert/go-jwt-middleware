@@ -1,4 +1,4 @@
-module github.com/auth0/go-jwt-middleware
+module github.com/adamwilbert/go-jwt-middleware
 
 go 1.14
 
