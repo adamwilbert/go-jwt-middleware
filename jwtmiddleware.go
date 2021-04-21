@@ -51,6 +51,8 @@ type Options struct {
 	// Important to avoid security issues described here: https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/
 	// Default: nil
 	SigningMethod jwt.SigningMethod
+	// custom claim support
+	Claims        jwt.Claims
 }
 
 type JWTMiddleware struct {
@@ -82,7 +84,11 @@ func New(options ...Options) *JWTMiddleware {
 	if opts.Extractor == nil {
 		opts.Extractor = FromAuthHeader
 	}
-
+	
+	if opts.Claims == nil {
+		opts.Claims = &jwt.StandardClaims{}
+	}
+	
 	return &JWTMiddleware{
 		Options: opts,
 	}
@@ -201,7 +207,7 @@ func (m *JWTMiddleware) CheckJWT(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	// Now parse the token
-	parsedToken, err := jwt.Parse(token, m.Options.ValidationKeyGetter)
+	parsedToken, err := jwt.ParseWithClaims(token, m.Options.Claims, m.Options.ValidationKeyGetter)
 
 	// Check if there was an error in parsing...
 	if err != nil {
